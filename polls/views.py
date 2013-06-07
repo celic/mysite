@@ -19,6 +19,10 @@ class DetailView(generic.DetailView):
 	model = Poll
 	template_name = 'polls/detail.html'
 
+	def get_queryset(self):
+		"""Prevent users from guessing future poll urls"""
+		return Poll.objects.filter(pub_date__lte = timezone.now())
+
 class ResultsView(generic.DetailView):
 	model = Poll
 	template_name = 'polls/results.html'
